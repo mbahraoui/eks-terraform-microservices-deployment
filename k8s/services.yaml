@@ -4,9 +4,6 @@ metadata:
   name: fleetman-webapp
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: webapp
 
@@ -15,7 +12,7 @@ spec:
       port: 80
       nodePort: 30080
 
-  type: NodePort
+  type: LoadBalancer
 ---
 apiVersion: v1
 kind: Service
@@ -23,21 +20,16 @@ metadata:
   name: fleetman-queue
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: queue
 
   ports:
     - name: http
       port: 8161
-      nodePort: 30010
 
     - name: endpoint
       port: 61616
 
-  type: NodePort
 
 ---
 apiVersion: v1
@@ -46,9 +38,6 @@ metadata:
   name: fleetman-position-tracker
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: position-tracker
 
@@ -56,7 +45,6 @@ spec:
     - name: http
       port: 8080
 
-  type: ClusterIP
 
 ---
 apiVersion: v1
@@ -65,16 +53,9 @@ metadata:
   name: fleetman-api-gateway
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: api-gateway
 
   ports:
     - name: http
       port: 8080
-      nodePort: 30020
-
-  type: NodePort
-
